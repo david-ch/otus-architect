@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dach-hw03-deployment
+  labels:
+    app: hw03-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hw03-app
+  template:
+    metadata:
+      labels:
+        app: hw03-app
+    spec:
+      containers:
+      - name: app
+        image: dachdev/otus-architect:hw03
+        ports:
+          - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            port: 8000
+            path: /
+          initialDelaySeconds: 2
+          periodSeconds: 5
+          timeoutSeconds: 2
+        readinessProbe:
+          httpGet:
+            port: 8000
+            path: /health
+          initialDelaySeconds: 2
+          periodSeconds: 5
