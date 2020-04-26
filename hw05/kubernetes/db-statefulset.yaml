@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dach-hw05-db-statefulset
+spec:
+  serviceName: dach-hw05-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dach-hw05-postgres
+  template:
+    metadata:
+      labels:
+        app: dach-hw05-postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:12.2
+        ports:
+        - containerPort: 5432
+          name: postgredb
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: dach-hw05-config
+              key: db-name
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: dach-hw05-config
+              key: db-user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: dach-hw05-secret
+              key: db-pass
+        volumeMounts:
+        - name: postgredb
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+  volumeClaimTemplates:
+  - metadata:
+      name: postgredb
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: standard
+      resources:
+        requests:
+          storage: 1Gi

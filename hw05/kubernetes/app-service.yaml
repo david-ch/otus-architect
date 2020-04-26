@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dach-hw05-app-service
+spec:
+  selector:
+    app: dach-hw05-app
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000 
+  type: NodePort

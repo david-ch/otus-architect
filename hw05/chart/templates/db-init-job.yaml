@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-db-init-job
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 100
+  template:
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-db-init
+        image: {{ .Values.images.dbInit }}
+        env:
+        - name: POSTGRES_HOST
+          value: {{ printf "%s-%s" .Release.Name "postgresql" }}
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: db-name
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: db-user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-secret
+              key: db-pass
+      restartPolicy: Never

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dach-hw05-config
+data:
+  db-name: "dach"
+  db-user: "dach"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dach-hw05-secret
+type: Opaque
+data:
+  db-pass: "ZGFjaA=="

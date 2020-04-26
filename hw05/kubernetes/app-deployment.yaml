@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dach-hw05-app-deployment
+  labels:
+    app: dach-hw05-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dach-hw05-app
+  template:
+    metadata:
+      labels:
+        app: dach-hw05-app
+    spec:
+      containers:
+      - name: app
+        image: dachdev/otus-architect:hw05-app
+        ports:
+          - containerPort: 8000
+        env:
+        - name: POSTGRES_HOST
+          value: "dach-hw05-postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: dach-hw05-config
+              key: db-name
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: dach-hw05-config
+              key: db-user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: dach-hw05-secret
+              key: db-pass
+        livenessProbe:
+          httpGet:
+            port: 8000
+            path: /
+          initialDelaySeconds: 2
+          periodSeconds: 5
+          timeoutSeconds: 2
+        readinessProbe:
+          httpGet:
+            port: 8000
+            path: /health
+          initialDelaySeconds: 2
+          periodSeconds: 5

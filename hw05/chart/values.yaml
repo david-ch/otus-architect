@@ -1,0 +1,11 @@
+host: arch.homework
+appPathPrefix: /otusapp/
+
+images:
+  app: dachdev/otus-architect:hw05-app
+  dbInit: dachdev/otus-architect:hw05-db-init
+
+postgresql:
+  postgresqlUsername: dach
+  postgresqlPassword: dach
+  postgresqlDatabase: dach

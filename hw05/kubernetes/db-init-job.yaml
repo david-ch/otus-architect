@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dach-hw05-db-init-job
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 100
+  template:
+    spec:
+      containers:
+      - name: dach-hw05-db-init
+        image: dachdev/otus-architect:hw05-db-init
+        env:
+        - name: POSTGRES_HOST
+          value: "dach-hw05-postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: dach-hw05-config
+              key: db-name
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: dach-hw05-config
+              key: db-user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: dach-hw05-secret
+              key: db-pass
+      restartPolicy: Never
