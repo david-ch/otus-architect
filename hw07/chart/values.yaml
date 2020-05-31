@@ -1,0 +1,17 @@
+host: arch.homework
+appPathPrefix: /otusapp/
+
+ingressAddress: nginx-nginx-ingress-controller
+
+images:
+  app: dachdev/otus-architect:hw07-app
+  dbInit: dachdev/otus-architect:hw07-db-init
+  stressTest: dachdev/otus-architect:hw07-stress-test
+
+postgresql:
+  postgresqlUsername: dach
+  postgresqlPassword: dach
+  postgresqlDatabase: dach
+
+metrics:
+  enabled: true

@@ -1,0 +1,13 @@
+phantom:
+  uris:
+    - /otusapp/userCount
+    - /otusapp/user/1
+  headers:
+    - "[Host: arch.homework]"
+  load_profile:
+    load_type: rps
+    schedule: line(5, 20, 10m)
+console:
+  enabled: true
+telegraf:
+  enabled: false
