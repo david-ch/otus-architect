@@ -12,6 +12,10 @@ postgresql:
   postgresqlUsername: dach
   postgresqlPassword: dach
   postgresqlDatabase: dach
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
 
 metrics:
   enabled: true

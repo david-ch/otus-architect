@@ -70,7 +70,7 @@ data:
             "fill": 10,
             "fillGradient": 0,
             "gridPos": {
-                "h": 9,
+                "h": 5,
                 "w": 12,
                 "x": 0,
                 "y": 0
@@ -190,7 +190,7 @@ data:
             "fill": 10,
             "fillGradient": 0,
             "gridPos": {
-                "h": 9,
+                "h": 5,
                 "w": 6,
                 "x": 12,
                 "y": 0
@@ -302,7 +302,7 @@ data:
             "fill": 10,
             "fillGradient": 0,
             "gridPos": {
-                "h": 9,
+                "h": 5,
                 "w": 6,
                 "x": 18,
                 "y": 0
@@ -414,10 +414,10 @@ data:
             "fill": 1,
             "fillGradient": 0,
             "gridPos": {
-                "h": 8,
+                "h": 5,
                 "w": 12,
                 "x": 0,
-                "y": 9
+                "y": 5
             },
             "hiddenSeries": false,
             "id": 9,
@@ -502,10 +502,10 @@ data:
             "fill": 1,
             "fillGradient": 0,
             "gridPos": {
-                "h": 8,
+                "h": 5,
                 "w": 12,
                 "x": 12,
-                "y": 9
+                "y": 5
             },
             "hiddenSeries": false,
             "id": 7,
@@ -536,7 +536,7 @@ data:
                 {
                 "expr": "sum by (exported_endpoint) (rate(app_request_count[1m]))",
                 "interval": "",
-                "legendFormat": "{{ "{{" }}exported_endpoint{{ "}}" }}",
+                "legendFormat": "{{ "{{" }}exported_endpoint {{ "}}" }}",
                 "refId": "A"
                 }
             ],
@@ -590,10 +590,10 @@ data:
             "fill": 1,
             "fillGradient": 0,
             "gridPos": {
-                "h": 8,
+                "h": 5,
                 "w": 12,
                 "x": 0,
-                "y": 17
+                "y": 10
             },
             "hiddenSeries": false,
             "id": 13,
@@ -713,10 +713,10 @@ data:
             "fill": 1,
             "fillGradient": 0,
             "gridPos": {
-                "h": 8,
+                "h": 5,
                 "w": 12,
                 "x": 12,
-                "y": 17
+                "y": 10
             },
             "hiddenSeries": false,
             "id": 11,
@@ -799,6 +799,275 @@ data:
                 "align": false,
                 "alignLevel": null
             }
+            },
+            {
+            "aliasColors": {},
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "fill": 1,
+            "fillGradient": 0,
+            "gridPos": {
+                "h": 5,
+                "w": 12,
+                "x": 0,
+                "y": 15
+            },
+            "hiddenSeries": false,
+            "id": 15,
+            "legend": {
+                "avg": false,
+                "current": false,
+                "max": false,
+                "min": false,
+                "show": true,
+                "total": false,
+                "values": false
+            },
+            "lines": true,
+            "linewidth": 1,
+            "nullPointMode": "null",
+            "options": {
+                "dataLinks": []
+            },
+            "percentage": false,
+            "pointradius": 2,
+            "points": false,
+            "renderer": "flot",
+            "seriesOverrides": [],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+                {
+                "expr": "rate(pg_stat_database_deadlocks{datname=\"dach\"}[1m])",
+                "interval": "",
+                "legendFormat": "deadlocks",
+                "refId": "A"
+                }
+            ],
+            "thresholds": [],
+            "timeFrom": null,
+            "timeRegions": [],
+            "timeShift": null,
+            "title": "[db] Deadlocks",
+            "tooltip": {
+                "shared": true,
+                "sort": 0,
+                "value_type": "individual"
+            },
+            "type": "graph",
+            "xaxis": {
+                "buckets": null,
+                "mode": "time",
+                "name": null,
+                "show": true,
+                "values": []
+            },
+            "yaxes": [
+                {
+                "$$hashKey": "object:123",
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+                },
+                {
+                "$$hashKey": "object:124",
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+                }
+            ],
+            "yaxis": {
+                "align": false,
+                "alignLevel": null
+            }
+            },
+            {
+            "aliasColors": {},
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "fill": 1,
+            "fillGradient": 0,
+            "gridPos": {
+                "h": 12,
+                "w": 12,
+                "x": 12,
+                "y": 15
+            },
+            "hiddenSeries": false,
+            "id": 17,
+            "legend": {
+                "avg": false,
+                "current": false,
+                "max": false,
+                "min": false,
+                "show": true,
+                "total": false,
+                "values": false
+            },
+            "lines": true,
+            "linewidth": 1,
+            "nullPointMode": "null",
+            "options": {
+                "dataLinks": []
+            },
+            "percentage": false,
+            "pointradius": 2,
+            "points": false,
+            "renderer": "flot",
+            "seriesOverrides": [],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+                {
+                "expr": "sum (node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate) by (container)",
+                "interval": "",
+                "legendFormat": "{{ "{{" }}container{{ "}}" }}",
+                "refId": "A"
+                }
+            ],
+            "thresholds": [],
+            "timeFrom": null,
+            "timeRegions": [],
+            "timeShift": null,
+            "title": "[pods] CPU Usage",
+            "tooltip": {
+                "shared": true,
+                "sort": 0,
+                "value_type": "individual"
+            },
+            "type": "graph",
+            "xaxis": {
+                "buckets": null,
+                "mode": "time",
+                "name": null,
+                "show": true,
+                "values": []
+            },
+            "yaxes": [
+                {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+                },
+                {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+                }
+            ],
+            "yaxis": {
+                "align": false,
+                "alignLevel": null
+            }
+            },
+            {
+            "aliasColors": {},
+            "bars": false,
+            "dashLength": 10,
+            "dashes": false,
+            "datasource": null,
+            "fill": 1,
+            "fillGradient": 0,
+            "gridPos": {
+                "h": 7,
+                "w": 12,
+                "x": 0,
+                "y": 20
+            },
+            "hiddenSeries": false,
+            "id": 19,
+            "legend": {
+                "avg": false,
+                "current": false,
+                "max": false,
+                "min": false,
+                "show": true,
+                "total": false,
+                "values": false
+            },
+            "lines": true,
+            "linewidth": 1,
+            "nullPointMode": "null",
+            "options": {
+                "dataLinks": []
+            },
+            "percentage": false,
+            "pointradius": 2,
+            "points": false,
+            "renderer": "flot",
+            "seriesOverrides": [],
+            "spaceLength": 10,
+            "stack": false,
+            "steppedLine": false,
+            "targets": [
+                {
+                "expr": "sum(container_memory_working_set_bytes{container!=\"POD\", container!=\"\"}) by (container)",
+                "interval": "",
+                "intervalFactor": 2,
+                "legendFormat": "{{ "{{" }}container{{ "}}" }}",
+                "refId": "A"
+                }
+            ],
+            "thresholds": [],
+            "timeFrom": null,
+            "timeRegions": [],
+            "timeShift": null,
+            "title": "[pods] Memory Usage",
+            "tooltip": {
+                "shared": true,
+                "sort": 0,
+                "value_type": "individual"
+            },
+            "type": "graph",
+            "xaxis": {
+                "buckets": null,
+                "mode": "time",
+                "name": null,
+                "show": true,
+                "values": []
+            },
+            "yaxes": [
+                {
+                "$$hashKey": "object:220",
+                "format": "bytes",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+                },
+                {
+                "$$hashKey": "object:221",
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+                }
+            ],
+            "yaxis": {
+                "align": false,
+                "alignLevel": null
+            }
             }
         ],
         "refresh": "5s",
@@ -819,5 +1088,5 @@ data:
         "variables": {
             "list": []
         },
-        "version": 2
+        "version": 1
         }
