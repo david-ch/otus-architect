@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-user-svc
+  labels:
+    app: {{ .Release.Name }}-user-svc
+spec:
+  selector:
+    app: {{ .Release.Name }}-user-svc
+  ports:
+    - name: web
+      protocol: TCP
+      port: 8000
+      targetPort: 8000 
+  type: NodePort

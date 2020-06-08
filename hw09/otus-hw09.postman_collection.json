@@ -1,0 +1,664 @@
+{
+	"info": {
+		"_postman_id": "dd5e92bf-1d14-467f-ba0a-3537df8c1589",
+		"name": "otus-hw09",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Регистрация пользователя 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a802b399-ec5d-43ce-b502-3740152fb6a6",
+						"exec": [
+							"if (pm.variables.replaceIn('{{baseUrl}}') === '{{baseUrl}}') {",
+							"    pm.environment.set(\"baseUrl\", \"arch.homework/otusapp\");",
+							"}",
+							"",
+							"if (pm.variables.replaceIn('{{host}}') === '{{host}}') {",
+							"    pm.environment.set(\"host\", \"arch.homework\");",
+							"}",
+							"",
+							"pm.collectionVariables.set(\"user1_firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));",
+							"pm.collectionVariables.set(\"user1_lastName\", pm.variables.replaceIn('{{$randomLastName}}'));",
+							"pm.collectionVariables.set(\"user1_userName\", pm.variables.replaceIn('{{$randomUserName}}'));",
+							"pm.collectionVariables.set(\"user1_password\", pm.variables.replaceIn('{{$randomPassword}}')); "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "12ad93d6-85bb-42eb-8ec3-3532f789efe1",
+						"exec": [
+							"pm.test(\"Пользователь зарегистрирован\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"value": "{{host}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{user1_userName}}\",\n\t\"firstName\": \"{{user1_firstName}}\",\n\t\"lastName\": \"{{user1_lastName}}\",\n\t\"password\": \"{{user1_password}}\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/register",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Попытка посмотреть свой профиль до логина",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "18a3b102-be71-4466-bd51-9ba9d31116d0",
+						"exec": [
+							"pm.test(\"До логина инфо о профиле недоступно\", function () {",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"value": "{{host}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{baseUrl}}/user/profile/{{user1_userName}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"profile",
+						"{{user1_userName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Логин пользователя 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "801ed3af-96ea-4809-b295-a2f15e812673",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7eba9f9d-3fdd-4469-8a71-b8fa9af15511",
+						"exec": [
+							"pm.test(\"Логин успешен\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{user1_userName}}\",\n\t\"password\": \"{{user1_password}}\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Изменение профиля пользователя 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9c6f6cc7-e969-46f9-af3e-daaa930f713a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e8e8b472-7407-4ddf-8d83-8a8c060b9278",
+						"exec": [
+							"pm.test(\"Профиль изменен\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{user1_userName}}\",\n\t\"firstName\": \"{{user1_firstName}}\",\n\t\"lastName\": \"{{user1_lastName}}\",\n\t\"password\": \"{{user1_password}}\",\n\t\"personalStatus\": \"changed status\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/user/profile/{{user1_userName}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"profile",
+						"{{user1_userName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Просмотр профиля",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f99dd762-bbd8-46a2-821c-330a1c102065",
+						"exec": [
+							"pm.test(\"Профиль доступен после логина и изменен\", function () {",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"    console.log(pm.response.json())",
+							"",
+							"    pm.response.to.have.status(200);",
+							"",
+							"",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.personalStatus).to.eql(\"changed status\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"url": {
+					"raw": "http://{{baseUrl}}/user/profile/{{user1_userName}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"profile",
+						"{{user1_userName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Логаут пользователя 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8a5d62b0-b2d1-47c5-8cd8-26b52c25d8a1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "88d7bc1c-b0cb-4196-a6ff-d9bb161b5b06",
+						"exec": [
+							"pm.test(\"Логаут успешен\", function () {",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/logout",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Регистрация пользователя 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3491c391-8f8a-4851-b915-fc13cece96e3",
+						"exec": [
+							"pm.collectionVariables.set(\"user2_firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));",
+							"pm.collectionVariables.set(\"user2_lastName\", pm.variables.replaceIn('{{$randomLastName}}'));",
+							"pm.collectionVariables.set(\"user2_userName\", pm.variables.replaceIn('{{$randomUserName}}'));",
+							"pm.collectionVariables.set(\"user2_password\", pm.variables.replaceIn('{{$randomPassword}}')); "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "47f2955d-4f25-4eb9-89a9-ededa7cea9f9",
+						"exec": [
+							"pm.test(\"Пользователь зарегистрирован\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{user2_userName}}\",\n\t\"firstName\": \"{{user2_firstName}}\",\n\t\"lastName\": \"{{user2_lastName}}\",\n\t\"password\": \"{{user2_password}}\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/register",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Логин пользователя 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5eb54c24-a0ea-41a8-871b-ec9e0721e4f1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e7f3d0aa-28aa-4c83-a26e-7e6325366d81",
+						"exec": [
+							"pm.test(\"Логин успешен\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{user2_userName}}\",\n\t\"password\": \"{{user2_password}}\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Попытка посмотреть чужой профиль",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4816427a-a2be-48ee-8ac8-45582a073fa2",
+						"exec": [
+							"pm.test(\"Инфо о чужом профиле недоступно\", function () {",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"url": {
+					"raw": "http://{{baseUrl}}/user/profile/{{user1_userName}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"profile",
+						"{{user1_userName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Попытка изменить чужой профиль",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "133cd66a-263f-4995-9705-fd46ebd52c8b",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b1edafa2-18bf-4d33-b974-3e8994b7b85e",
+						"exec": [
+							"pm.test(\"Чужой профиль недоступен\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{user1_userName}}\",\n\t\"firstName\": \"{{user1_firstName}}\",\n\t\"lastName\": \"{{user1_lastName}}\",\n\t\"password\": \"{{user1_password}}\",\n\t\"personalStatus\": \"hacked\"\n}"
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/user/profile/{{user1_userName}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"profile",
+						"{{user1_userName}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "4a253f46-4941-4462-9fbd-d4d948f12c31",
+			"key": "user1_firstName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "111238bf-f5cc-4acf-97be-0271de544c44",
+			"key": "user1_lastName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "10cac666-1da7-4b1d-abc4-f46e60dff9a1",
+			"key": "user1_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "d8af72a5-4438-416a-a858-039cef19b1f4",
+			"key": "user1_userName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "b960bf8e-5aae-4def-b79a-429e20fa83bd",
+			"key": "user2_firstName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "1b97af80-3cfc-4a3a-bba5-1b5fd4341ccd",
+			"key": "user2_lastName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "e9b87bd0-2eb9-40b2-a9d9-a63df858ce28",
+			"key": "user2_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "d58bd596-73bc-4660-8e3f-8e1639787e66",
+			"key": "user2_userName",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

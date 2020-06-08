@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta2
+kind: Config
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+  - image: hw09-auth-service
+    context: ./app
+deploy:
+  helm:
+    releases:
+    - name: hw09-auth
+      chartPath: chart
+      skipBuildDependencies: true
+      values:
+        images.authService: "hw09-auth-service"

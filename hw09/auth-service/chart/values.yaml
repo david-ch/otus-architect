@@ -1,0 +1,13 @@
+host: arch.homework
+appPathPrefix: /otusapp/auth/
+
+images:
+  authService: dachdev/otus-architect:hw09-auth-service
+
+serviceAddress:
+  userService: "http://hw09-user-user-svc.default.svc.cluster.local:8000"
+
+authDomain: "arch.homework"
+
+metrics:
+  enabled: true

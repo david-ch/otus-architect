@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+data:
+  db-name: {{ .Values.postgresql.postgresqlDatabase | quote }}
+  db-user: {{ .Values.postgresql.postgresqlUsername | quote }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-secret
+type: Opaque
+data:
+  db-pass: {{ .Values.postgresql.postgresqlPassword | b64enc | quote }}

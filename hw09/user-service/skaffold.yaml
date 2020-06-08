@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta2
+kind: Config
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+  - image: hw09-user-service
+    context: ./app
+deploy:
+  helm:
+    releases:
+    - name: hw09-user
+      chartPath: chart
+      skipBuildDependencies: true
+      values:
+        images.userService: hw09-user-service

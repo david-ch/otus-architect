@@ -1,0 +1,21 @@
+host: arch.homework
+appPathPrefix: /otusapp/user/
+
+images:
+  userService: dachdev/otus-architect:hw09-user-service
+  dbInit: dachdev/otus-architect:hw09-user-db-init
+
+serviceAddress:
+  authService: "http://hw09-auth-auth-svc.default.svc.cluster.local:8000"
+
+postgresql:
+  postgresqlUsername: dach
+  postgresqlPassword: dach
+  postgresqlDatabase: dach
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+metrics:
+  enabled: true

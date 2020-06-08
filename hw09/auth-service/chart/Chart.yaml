@@ -1,0 +1,8 @@
+apiVersion: v3
+name: dach-hw09-auth-svc-chart
+description: A Helm chart for Otus Architect HW09. Auth service
+
+type: application
+
+version: 0.0.1
+appVersion: 0.0.1
