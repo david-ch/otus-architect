@@ -3,19 +3,14 @@
 
     ./install_prom.sh && ./install_ingress.sh
 
-2. запустить из auth-service
+2. установить сервисы командами
 
-    helm install hw09-auth ./chart
-
-Если требуется изменить имя релиза или использовать не неймспейс по умолчанию, то в обоих чартах нужно указать верный serviceAddress
-
-3. запустить из user-service
-
-    helm install hw09-user ./chart 
+    helm install hw09-auth ./auth-service/chart
+    helm install hw09-user ./user-service/chart
 
 Если требуется изменить имя релиза или использовать не неймспейс по умолчанию, то в обоих чартах нужно указать верный serviceAddress
 
-4. запустить тесты
+3. запустить тесты
 
     newman run otus-hw09.postman_collection.json
 
