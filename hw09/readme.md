@@ -6,6 +6,7 @@
 2. установить сервисы командами
 
     helm install hw09-auth ./auth-service/chart
+    
     helm install hw09-user ./user-service/chart
 
 Если требуется изменить имя релиза или использовать не неймспейс по умолчанию, то в обоих чартах нужно указать верный serviceAddress
