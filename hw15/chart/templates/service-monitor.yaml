@@ -1,0 +1,19 @@
+{{- if .Values.metrics.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Release.Name }}-svc-monitor
+spec:
+  jobLabel: {{ .Release.Name }}-svc-monitor
+  namespaceSelector:
+    matchNames:
+    - "{{ $.Release.Namespace }}"
+  selector:
+    matchLabels:
+      otusappRelease: {{ .Release.Name }}
+      otusappMonitoring: true
+  endpoints:
+  - interval: 15s
+    port: web
+    path: /metrics
+{{- end }}     
