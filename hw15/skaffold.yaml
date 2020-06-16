@@ -1,0 +1,19 @@
+apiVersion: skaffold/v2beta5
+kind: Config
+build:
+  artifacts:
+    - image: dachdev/otus-auth-service
+      context: ./auth-service/app
+    - image: dachdev/otus-product-service
+      context: ./product-service/app
+    - image: dachdev/otus-user-service
+      context: ./user-service/app
+deploy:
+  helm:
+    releases:
+      - name: hw15
+        chartPath: chart
+        artifactOverrides:
+          images.authService: dachdev/otus-auth-service
+          images.productService: dachdev/otus-product-service
+          images.userService: dachdev/otus-user-service

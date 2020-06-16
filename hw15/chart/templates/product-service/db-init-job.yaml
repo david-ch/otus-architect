@@ -19,15 +19,15 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: {{ .Release.Name }}-config
-              key: db-name
+              key: postgresDbName
         - name: POSTGRES_USER
           valueFrom:
             configMapKeyRef:
               name: {{ .Release.Name }}-config
-              key: db-user
+              key: postgresUsername
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-secret
-              key: db-pass
+              key: postgresPass
       restartPolicy: Never

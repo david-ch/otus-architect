@@ -9,7 +9,7 @@ spec:
   - host: {{ .Values.host }}
     http:
       paths:
-      - path: {{ .Values.appPathPrefix }}/auth(.*)
+      - path: {{ .Values.appPathPrefix }}/auth/(.*)
         pathType: Prefix
         backend:
           serviceName: {{ .Release.Name }}-auth-svc

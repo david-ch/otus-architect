@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-auth-svc-deployment
+  name: {{ .Release.Name }}-auth-svc
   labels:
     app: {{ .Release.Name }}-auth-svc
 spec:
@@ -22,9 +22,9 @@ spec:
           - containerPort: 8000
         env:
         - name: USER_SVC_ADDRESS
-          value: {{ .Values.serviceAddress.userService }}
+          value: "http://{{ .Release.Name }}-user-svc.default.svc.cluster.local:8000"
         - name: AUTH_DOMAIN
-          value: {{ .Values.authDomain }}
+          value: {{ .Values.host }}
         readinessProbe:
           httpGet:
             port: 8000

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-product-svc-deployment
+  name: {{ .Release.Name }}-product-svc
   labels:
     app: {{ .Release.Name }}-product-svc
 spec:
@@ -29,17 +29,32 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: {{ .Release.Name }}-config
-              key: db-name
+              key: postgresDbName
         - name: POSTGRES_USER
           valueFrom:
             configMapKeyRef:
               name: {{ .Release.Name }}-config
-              key: db-user
+              key: postgresUsername
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-secret
-              key: db-pass
+              key: postgresPass
+        - name: REDIS_HOST
+          value: {{ printf "%s-%s" .Release.Name "redis-master" }}
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-secret
+              key: redisPass
+        - name: CACHE_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: productCacheEnabled
+
         readinessProbe:
           httpGet:
             port: 8000

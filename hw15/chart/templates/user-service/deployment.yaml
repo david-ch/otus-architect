@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-user-svc-deployment
+  name: {{ .Release.Name }}-user-svc
   labels:
     app: {{ .Release.Name }}-user-svc
 spec:
@@ -29,17 +29,17 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: {{ .Release.Name }}-config
-              key: db-name
+              key: postgresDbName
         - name: POSTGRES_USER
           valueFrom:
             configMapKeyRef:
               name: {{ .Release.Name }}-config
-              key: db-user
+              key: postgresUsername
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-secret
-              key: db-pass
+              key: postgresPass
         readinessProbe:
           httpGet:
             port: 8000

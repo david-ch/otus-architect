@@ -55,17 +55,17 @@ func (db *productDb) Create(p *model.Product) (int64, error) {
 	return id, nil
 }
 
-func (db *productDb) Get(id int64) (*model.Product, error) {
+func (db *productDb) Get(id int64) (model.Product, error) {
 	conn := getConn()
 	defer conn.Close(context.Background())
 
 	p := model.Product{}
 	err := conn.QueryRow(
 		context.Background(),
-		"SELECT \"id\", \"product\", \"description\" FROM products WHERE id = $1", id).
+		"SELECT \"id\", \"name\", \"description\" FROM products WHERE id = $1", id).
 		Scan(&p.ID, &p.Name, &p.Description)
 
-	return &p, err
+	return p, err
 }
 
 func (db *productDb) Update(p *model.Product) error {

@@ -3,8 +3,9 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-config
 data:
-  db-name: {{ .Values.postgresql.postgresqlDatabase | quote }}
-  db-user: {{ .Values.postgresql.postgresqlUsername | quote }}
+  postgresDbName: {{ .Values.postgresql.postgresqlDatabase | quote }}
+  postgresUsername: {{ .Values.postgresql.postgresqlUsername | quote }}
+  productCacheEnabled: {{ .Values.product.cache.enabled | quote }}
 ---
 apiVersion: v1
 kind: Secret
@@ -12,4 +13,5 @@ metadata:
   name: {{ .Release.Name }}-secret
 type: Opaque
 data:
-  db-pass: {{ .Values.postgresql.postgresqlPassword | b64enc | quote }}
+  postgresPass: {{ .Values.postgresql.postgresqlPassword | b64enc | quote }}
+  redisPass: {{ .Values.redis.password | b64enc | quote }}

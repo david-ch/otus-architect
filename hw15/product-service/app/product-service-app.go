@@ -1,20 +1,19 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
 	"github.com/david-ch/otus-architect/hw15/product-service/health"
 	"github.com/david-ch/otus-architect/hw15/product-service/metrics"
 	"github.com/david-ch/otus-architect/hw15/product-service/product"
 	"github.com/gorilla/mux"
+	"log"
+	"net/http"
 )
 
 func main() {
 	r := mux.NewRouter()
-	product.RegisterProductRoutes(r)
-	metrics.RegisterMetricsRoutes(r)
 	health.RegisterHealthRoutes(r)
+	metrics.RegisterMetricsRoutes(r)
+	product.RegisterProductRoutes(r)
 
 	r.Use(commonMiddleware)
 

@@ -8,11 +8,9 @@ images:
   userService: dachdev/otus-architect:hw15-user-service
   userDbInit: dachdev/otus-architect:hw15-user-db-init
 
-serviceAddress:
-  authService: "http://hw15-auth-auth-svc.default.svc.cluster.local:8000"
-  userService: "http://hw15-user-user-svc.default.svc.cluster.local:8000"
-
-authDomain: "arch.homework"
+product:
+  cache:
+    enabled: true
 
 metrics:
   enabled: true
@@ -25,3 +23,13 @@ postgresql:
     enabled: true
     serviceMonitor:
       enabled: true
+
+redis:
+  password: dach
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  master:
+    extraFlags:
+      - "--maxmemory-policy volatile-lru"

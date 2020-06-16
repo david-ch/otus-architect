@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/david-ch/otus-architect/hw15/product-service/product/cache"
 	"github.com/david-ch/otus-architect/hw15/product-service/product/db"
 	"net/http"
 	"strconv"
@@ -21,6 +22,8 @@ func OnDelete(w http.ResponseWriter, r *http.Request) {
 		util.Resp(w, http.StatusNotFound, util.FromError(err))
 		return
 	}
+
+	cache.EvictProduct(id)
 
 	w.WriteHeader(http.StatusOK)
 }

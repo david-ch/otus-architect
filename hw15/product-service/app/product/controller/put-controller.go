@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"github.com/david-ch/otus-architect/hw15/product-service/product/cache"
 	"github.com/david-ch/otus-architect/hw15/product-service/product/db"
 	"github.com/david-ch/otus-architect/hw15/product-service/product/model"
 	"net/http"
@@ -41,6 +42,7 @@ func OnPut(w http.ResponseWriter, r *http.Request) {
 		util.Resp(w, http.StatusInternalServerError, util.FromError(err))
 		return
 	}
+	cache.EvictProduct(id)
 
 	w.WriteHeader(http.StatusOK)
 }
