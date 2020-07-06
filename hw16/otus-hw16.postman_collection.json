@@ -1,0 +1,553 @@
+{
+	"info": {
+		"_postman_id": "652ce407-7a8f-443a-ba92-35a875b463b5",
+		"name": "otus-hw16",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Регистрация пользователя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e9288760-68a6-4f97-8c05-e99e65ce497e",
+						"exec": [
+							"if (pm.variables.replaceIn('{{baseUrl}}') === '{{baseUrl}}') {",
+							"    pm.environment.set(\"baseUrl\", \"arch.homework/otusapp\");",
+							"}",
+							"",
+							"if (pm.variables.replaceIn('{{host}}') === '{{host}}') {",
+							"    pm.environment.set(\"host\", \"arch.homework\");",
+							"}",
+							"",
+							"pm.collectionVariables.set(\"user1_firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));",
+							"pm.collectionVariables.set(\"user1_lastName\", pm.variables.replaceIn('{{$randomLastName}}'));",
+							"pm.collectionVariables.set(\"user1_userName\", pm.variables.replaceIn('{{$randomUserName}}'));",
+							"pm.collectionVariables.set(\"user1_password\", pm.variables.replaceIn('{{$randomPassword}}')); "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d29c40d-a2e8-4be5-b489-8f11f7471b5a",
+						"exec": [
+							"pm.test(\"Пользователь зарегистрирован\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"value": "{{host}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{user1_userName}}\",\n\t\"firstName\": \"{{user1_firstName}}\",\n\t\"lastName\": \"{{user1_lastName}}\",\n\t\"password\": \"{{user1_password}}\"\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/register",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Логин пользователя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "71473652-9f21-4bcd-9a18-4f83bcc10e3a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c45eb65e-f413-47b8-add9-a1d50bd3fcac",
+						"exec": [
+							"pm.test(\"Логин успешен\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{user1_userName}}\",\n\t\"password\": \"{{user1_password}}\"\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание продукта",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4abd401d-616c-45c1-9ec8-3df27934e4aa",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "059785dd-106b-4124-9be8-256699b65564",
+						"exec": [
+							"pm.test(\"Продукт создан\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"    console.log(pm.response.json())",
+							"",
+							"    pm.collectionVariables.set(\"productId\", pm.response.json());",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Тестовый продукт\",\n\t\"description\": \"Продукт, созданный специально для тестирования\"\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/product",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получение продукта",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bb4cdd81-2136-44ec-ad33-b0192d2ef0dc",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6ec0165f-6b21-4beb-9788-432885eee04e",
+						"exec": [
+							"pm.test(\"Продукт получен\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"    console.log(pm.response.json())",
+							"",
+							"    pm.collectionVariables.set(\"product_id\", pm.response.json());",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Тестовый продукт\",\n\t\"description\": \"Продукт, созданный специально для тестирования\"\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/product/{{productId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"product",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Повторное получение продукта",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "930362a0-95fd-4bc6-a533-d72a9b582073",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "742a8882-5a3a-43f1-9f65-cd64a7a96bb9",
+						"exec": [
+							"pm.test(\"Продукт получен (из кэша)\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"    console.log(pm.response.json())",
+							"",
+							"    pm.collectionVariables.set(\"product_id\", pm.response.json());",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Тестовый продукт\",\n\t\"description\": \"Продукт, созданный специально для тестирования\"\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/product/{{productId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"product",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Обновление продукта",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c3edbaca-0bf0-46b3-8208-1fb2005dc498",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "46ece016-24a4-438d-93a3-595b52c7f52f",
+						"exec": [
+							"pm.test(\"Продукт обновлен (кэш сброшен)\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Тестовый продукт\",\n\t\"description\": \"Продукт, созданный специально для тестирования. Теперь с новым описанием!\"\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/product/{{productId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"product",
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Логаут пользователя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "badfc39e-f45e-4798-80ec-2a425bd3d119",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fc04d53a-7507-4148-88a3-c3aba23cc3b4",
+						"exec": [
+							"pm.test(\"Логаут успешен\", function () {",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/logout",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "c0060cc8-6301-4770-a0ea-2c8f12335ac8",
+			"key": "user1_firstName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "2ade938e-20f3-4723-a0ab-98c45a2fc936",
+			"key": "user1_lastName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "6f9d9b26-99e3-4dde-b5a4-e50dee0982b9",
+			"key": "user1_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "3ae48fe3-d7dc-466a-9f69-bbb522f04741",
+			"key": "user1_userName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "8326eec2-1d9f-409a-86ff-633bafb0d65d",
+			"key": "user2_firstName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "fdf3010a-9da4-48c4-9055-2f59348b948b",
+			"key": "user2_lastName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "dcb3d314-9b08-4ebf-bdbc-62497f4c5c82",
+			"key": "user2_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "7cd9593f-b6eb-4918-b9d1-379028666769",
+			"key": "user2_userName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "6dc40cc6-19e6-4842-99be-9c6d674f1c1f",
+			"key": "productId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "2b91a123-28d0-46a2-a3ce-aa83bdd4d228",
+			"key": "product_id",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

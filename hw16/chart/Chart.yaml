@@ -1,0 +1,16 @@
+apiVersion: v3
+name: dach-otus-hw16-chart
+description: A Helm chart for Otus Architect HW16
+
+type: application
+
+version: 0.0.1
+appVersion: 0.0.1
+
+dependencies:
+  - name: postgresql
+    version: 8.7.2
+    repository: "@bitnami"
+  - name: redis
+    version: 10.7.1
+    repository: "@bitnami"

@@ -1,0 +1,37 @@
+host: arch.homework
+appPathPrefix: /otusapp
+
+images:
+  authService: dachdev/otus-architect:hw16-auth-service
+  productService: dachdev/otus-architect:hw16-product-service
+  productDbInit: dachdev/otus-architect:hw16-product-db-init
+  userService: dachdev/otus-architect:hw16-user-service
+  userDbInit: dachdev/otus-architect:hw16-user-db-init
+
+product:
+  cache:
+    enabled: false
+
+metrics:
+  enabled: true
+
+postgresql:
+  postgresqlUsername: dach
+  postgresqlPassword: dach
+  postgresqlDatabase: dach
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+redis:
+  cluster:
+    enabled: false
+  password: dach
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  master:
+    extraFlags:
+      - "--maxmemory-policy volatile-lru"
