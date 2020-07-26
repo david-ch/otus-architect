@@ -1,0 +1,12 @@
+dependencies:
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 8.7.2
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.7.1
+- name: cp-helm-charts
+  repository: https://confluentinc.github.io/cp-helm-charts/
+  version: 0.5.0
+digest: sha256:5b33ac31268de8df654e454e77ea0406d5273f2b8b9e215482dd366335d88caa
+generated: "2020-07-24T09:43:16.037733+03:00"

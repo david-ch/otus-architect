@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-payment-svc
+  labels:
+    app: {{ .Release.Name }}-payment-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-payment-svc
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-payment-svc
+    spec:
+      containers:
+      - name: order-svc
+        image: {{ .Values.images.paymentService }}
+        imagePullPolicy: "IfNotPresent"
+        ports:
+          - containerPort: 8000
+        env:
+        - name: KAFKA_HOST
+          value: {{ printf "%s-%s" .Release.Name "cp-kafka" }}
+
+        readinessProbe:
+          httpGet:
+            port: 8000
+            path: /health
+          initialDelaySeconds: 2
+          periodSeconds: 5

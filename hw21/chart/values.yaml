@@ -1,0 +1,63 @@
+host: arch.homework
+appPathPrefix: /otusapp
+
+images:
+  authService: dachdev/otus-architect:hw21-auth-service
+  productService: dachdev/otus-architect:hw21-product-service
+  productDbInit: dachdev/otus-architect:hw21-product-db-init
+  userService: dachdev/otus-architect:hw21-user-service
+  userDbInit: dachdev/otus-architect:hw21-user-db-init
+  orderService: dachdev/otus-architect:hw21-order-service
+  orderDbInit: dachdev/otus-architect:hw21-order-db-init
+  paymentService: dachdev/otus-architect:hw21-payment-service
+  warehouseService: dachdev/otus-architect:hw21-warehouse-service
+  warehouseDbInit: dachdev/otus-architect:hw21-warehouse-db-init
+  deliveryService: dachdev/otus-architect:hw21-delivery-service
+  deliveryDbInit: dachdev/otus-architect:hw21-delivery-db-init
+
+product:
+  cache:
+    enabled: false
+
+metrics:
+  enabled: false
+
+postgresql:
+  postgresqlUsername: dach
+  postgresqlPassword: dach
+  postgresqlDatabase: dach
+  metrics:
+    enabled: false
+    serviceMonitor:
+      enabled: false
+
+redis:
+  enabled: false
+  cluster:
+    enabled: false
+  password: dach
+  metrics:
+    enabled: false
+    serviceMonitor:
+      enabled: false
+  master:
+    extraFlags:
+      - "--maxmemory-policy volatile-lru"
+
+cp-helm-charts:
+  cp-kafka:
+    brokers: 1
+    configurationOverrides:
+      "offsets.topic.replication.factor": "1"
+  cp-zookeeper:
+    servers: 1
+  cp-schema-registry:
+    enabled: false
+  cp-kafka-rest:
+    enabled: false
+  cp-kafka-connect:
+    enabled: false
+  cp-ksql-server:
+    enabled: false
+  cp-control-center:
+    enabled: false

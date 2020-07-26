@@ -1,0 +1,31 @@
+apiVersion: skaffold/v2beta5
+kind: Config
+build:
+  artifacts:
+    - image: dachdev/otus-auth-service
+      context: ./auth-service/app
+    - image: dachdev/otus-product-service
+      context: ./product-service/app
+    - image: dachdev/otus-user-service
+      context: ./user-service/app
+    - image: dachdev/otus-order-service
+      context: ./order-service/app
+    - image: dachdev/otus-payment-service
+      context: ./payment-service/app
+    - image: dachdev/otus-warehouse-service
+      context: ./warehouse-service/app
+    - image: dachdev/otus-delivery-service
+      context: ./delivery-service/app
+deploy:
+  helm:
+    releases:
+      - name: hw21
+        chartPath: chart
+        artifactOverrides:
+          images.authService: dachdev/otus-auth-service
+          images.productService: dachdev/otus-product-service
+          images.userService: dachdev/otus-user-service
+          images.orderService: dachdev/otus-order-service
+          images.paymentService: dachdev/otus-payment-service
+          images.warehouseService: dachdev/otus-warehouse-service
+          images.deliveryService: dachdev/otus-delivery-service

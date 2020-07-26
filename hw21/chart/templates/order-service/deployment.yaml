@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-order-svc
+  labels:
+    app: {{ .Release.Name }}-order-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-order-svc
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-order-svc
+    spec:
+      containers:
+      - name: order-svc
+        image: {{ .Values.images.orderService }}
+        imagePullPolicy: "IfNotPresent"
+        ports:
+          - containerPort: 8000
+        env:
+        - name: KAFKA_HOST
+          value: {{ printf "%s-%s" .Release.Name "cp-kafka" }}
+        - name: POSTGRES_HOST
+          value: {{ printf "%s-%s" .Release.Name "postgresql" }}
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: postgresDbName
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: postgresUsername
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-secret
+              key: postgresPass
+
+        readinessProbe:
+          httpGet:
+            port: 8000
+            path: /health
+          initialDelaySeconds: 2
+          periodSeconds: 5
