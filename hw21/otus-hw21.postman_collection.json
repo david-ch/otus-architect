@@ -230,7 +230,7 @@
 					"script": {
 						"id": "b8849de6-82eb-454f-98f3-4921da3941ae",
 						"exec": [
-							"setTimeout(function(){}, 1000); // delay before request "
+							"setTimeout(function(){}, 5000); // delay before request "
 						],
 						"type": "text/javascript"
 					}
@@ -377,7 +377,7 @@
 					"script": {
 						"id": "a13a7f5c-05ad-4685-84ba-895471a2a312",
 						"exec": [
-							"setTimeout(function(){}, 1000); // delay before request "
+							"setTimeout(function(){}, 5000); // delay before request "
 						],
 						"type": "text/javascript"
 					}
