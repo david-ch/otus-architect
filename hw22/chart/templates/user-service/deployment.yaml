@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-user-svc
+  labels:
+    app: {{ .Release.Name }}-user-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-user-svc
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-user-svc
+    spec:
+      containers:
+      - name: user-svc
+        image: {{ .Values.images.userService }}
+        imagePullPolicy: "IfNotPresent"
+        ports:
+          - containerPort: 8000
+        env:
+        - name: POSTGRES_HOST
+          value: {{ printf "%s-%s" .Release.Name "postgres0" }}
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: postgresDbName
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: postgresUsername
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-secret
+              key: postgresPass
+        readinessProbe:
+          httpGet:
+            port: 8000
+            path: /health
+          initialDelaySeconds: 2
+          periodSeconds: 5

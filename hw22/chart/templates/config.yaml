@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+data:
+  postgresDbName: {{ .Values.postgres0.postgresqlDatabase | quote }}
+  postgresUsername: {{ .Values.postgres0.postgresqlUsername | quote }}
+  postgres1DbName: {{ .Values.postgres1.postgresqlDatabase | quote }}
+  postgres1Username: {{ .Values.postgres1.postgresqlUsername | quote }}
+  productCacheEnabled: {{ .Values.product.cache.enabled | quote }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-secret
+type: Opaque
+data:
+  postgresPass: {{ .Values.postgres0.postgresqlPassword | b64enc | quote }}
+  postgres1Pass: {{ .Values.postgres0.postgresqlPassword | b64enc | quote }}
+  redisPass: {{ .Values.redis.password | b64enc | quote }}

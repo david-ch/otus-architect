@@ -1,0 +1,30 @@
+package controller
+
+import (
+	"github.com/david-ch/otus-architect/product-service/product/cache"
+	"github.com/david-ch/otus-architect/product-service/product/db"
+	"net/http"
+	"strconv"
+
+	"github.com/david-ch/otus-architect/product-service/util"
+	"github.com/gorilla/mux"
+)
+
+func OnDelete(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(mux.Vars(r)["id"], 10, 64)
+	if err != nil {
+		util.Resp(w, http.StatusBadRequest, util.FromError(err))
+		return
+	}
+
+	err = db.Products.Delete(id)
+	if err != nil {
+		util.Resp(w, http.StatusNotFound, util.FromError(err))
+		return
+	}
+
+	cache.EvictProduct(id)
+	cache.EvictPromoted() // todo replace with smarter eviction
+
+	w.WriteHeader(http.StatusOK)
+}

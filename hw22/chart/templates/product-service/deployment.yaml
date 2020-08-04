@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-product-svc
+  labels:
+    app: {{ .Release.Name }}-product-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-product-svc
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-product-svc
+    spec:
+      containers:
+      - name: product-svc
+        image: {{ .Values.images.productService }}
+        imagePullPolicy: "IfNotPresent"
+        ports:
+          - containerPort: 8000
+        env:
+        - name: POSTGRES_HOST
+          value: {{ printf "%s-%s" .Release.Name "postgres0" }}
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: postgresDbName
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: postgresUsername
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-secret
+              key: postgresPass
+        - name: REDIS_HOST
+          value: {{ printf "%s-%s" .Release.Name "redis-master" }}
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-secret
+              key: redisPass
+        - name: CACHE_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-config
+              key: productCacheEnabled
+
+        readinessProbe:
+          httpGet:
+            port: 8000
+            path: /health
+          initialDelaySeconds: 2
+          periodSeconds: 5

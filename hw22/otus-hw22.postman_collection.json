@@ -1,0 +1,446 @@
+{
+	"info": {
+		"_postman_id": "c791576a-7e57-47e7-b3e3-4f7dec72cd36",
+		"name": "otus-hw22",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Регистрация пользователя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "eda60f7c-58c0-45cf-b976-ebdf0ebaad35",
+						"exec": [
+							"if (pm.variables.replaceIn('{{baseUrl}}') === '{{baseUrl}}') {",
+							"    pm.environment.set(\"baseUrl\", \"arch.homework/otusapp\");",
+							"}",
+							"",
+							"if (pm.variables.replaceIn('{{host}}') === '{{host}}') {",
+							"    pm.environment.set(\"host\", \"arch.homework\");",
+							"}",
+							"",
+							"pm.collectionVariables.set(\"user1_firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));",
+							"pm.collectionVariables.set(\"user1_lastName\", pm.variables.replaceIn('{{$randomLastName}}'));",
+							"pm.collectionVariables.set(\"user1_userName\", pm.variables.replaceIn('{{$randomUserName}}'));",
+							"pm.collectionVariables.set(\"user1_password\", pm.variables.replaceIn('{{$randomPassword}}')); "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a0f14732-4ef2-43d9-893f-fc99271618d1",
+						"exec": [
+							"pm.test(\"Пользователь зарегистрирован\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"value": "{{host}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{user1_userName}}\",\n\t\"firstName\": \"{{user1_firstName}}\",\n\t\"lastName\": \"{{user1_lastName}}\",\n\t\"password\": \"{{user1_password}}\"\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/register",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Логин пользователя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ad265206-f07d-469d-8bb4-fc3642aa04d3",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6aaa456-edd8-41be-abe6-18231f29d246",
+						"exec": [
+							"pm.test(\"Логин успешен\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{user1_userName}}\",\n\t\"password\": \"{{user1_password}}\"\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание заказа",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dc3fd323-2237-489f-b0c7-51052ef95dd7",
+						"exec": [
+							"pm.collectionVariables.set(\"orderRequestId\", pm.variables.replaceIn('{{$randomPassword}}'));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ddcd867b-98d3-450b-9f5a-1c18826176c8",
+						"exec": [
+							"pm.test(\"Запрос на создание заказа успешен\", function () {",
+							"    console.log(\"REQUEST\")",
+							"    console.log(JSON.parse(request.data))",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.collectionVariables.set(\"order_id\", pm.response.json());",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "{{orderRequestId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\": 1,\n\t\"productId\": 2,\n\t\"deliveryTimeslot\": \"2020-10-10T19:10:00Z\"\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/order/",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"order",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получение заказа",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "78ff4fa5-4357-4194-9d08-69c8005822ce",
+						"exec": [
+							"setTimeout(function(){}, 1000); // delay before request "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "50c4ed02-cf78-431a-88ad-28392110d2d4",
+						"exec": [
+							"pm.test(\"Заказ успешно получен\", function () {",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"    console.log(pm.response.json())",
+							"",
+							"    pm.response.to.have.status(200)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					},
+					{
+						"key": "X-Request-Id",
+						"type": "text",
+						"value": "{{orderRequestId}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/order/{{order_id}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"order",
+						"{{order_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Логаут пользователя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6e003b92-4ea3-4df7-8ca1-5d4cb4b0572a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "82bd2e7e-d5cf-4ac6-ae11-936efe8e6190",
+						"exec": [
+							"pm.test(\"Логаут успешен\", function () {",
+							"    console.log(\"RESPONSE\")",
+							"    console.log(pm.response.code)",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"type": "text",
+						"value": "{{host}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/logout",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "5c81a90d-ccf6-4cab-a43e-72febac3906e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "1491003f-f397-4c3a-8814-f37ddfada5ab",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "74e763bd-31b5-4c33-802e-045659fabf22",
+			"key": "user1_firstName",
+			"value": ""
+		},
+		{
+			"id": "7a0b17ba-8609-48d4-b618-71add41810e8",
+			"key": "user1_lastName",
+			"value": ""
+		},
+		{
+			"id": "94206297-4e26-4808-bf4f-312981134060",
+			"key": "user1_password",
+			"value": ""
+		},
+		{
+			"id": "8761aeca-d43a-4e6e-b3a1-ecc002a56f45",
+			"key": "user1_userName",
+			"value": ""
+		},
+		{
+			"id": "0b712fa0-bf09-484a-927f-665cdbbba367",
+			"key": "user2_firstName",
+			"value": ""
+		},
+		{
+			"id": "dad38646-81c9-40bd-b084-6e3a4f54f858",
+			"key": "user2_lastName",
+			"value": ""
+		},
+		{
+			"id": "4da9930a-48fb-4f36-9b18-b176a4c7546e",
+			"key": "user2_password",
+			"value": ""
+		},
+		{
+			"id": "860c8273-5849-49e2-896b-5d39c4061fa4",
+			"key": "user2_userName",
+			"value": ""
+		},
+		{
+			"id": "2899c09a-6767-471d-b739-7613d7471ad6",
+			"key": "productId",
+			"value": ""
+		},
+		{
+			"id": "bfbda58a-d965-4a78-a685-089628f08be9",
+			"key": "product_id",
+			"value": ""
+		},
+		{
+			"id": "3271b86b-1832-4e08-ab7f-d9c286a6ef14",
+			"key": "orderRequestId",
+			"value": ""
+		},
+		{
+			"id": "3b5469bd-bc52-4602-93ca-f31dab448945",
+			"key": "order_id",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}
